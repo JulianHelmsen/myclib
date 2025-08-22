@@ -1,9 +1,9 @@
 TESTS = sview
+TEST_FILES = $(addsuffix .test, $(TESTS))
 
+all: $(TEST_FILES)
 
-all: $(TESTS)
-
-%: %.c ../libmylibc.a test.h
+%.test: %.c ../libmylibc.a test.h
 	$(CC) -o $@ $< -L.. -lmylibc -Wall -Werror -pedantic -Wextra -std=c99 -I../include
 	./$@ || 1
 
