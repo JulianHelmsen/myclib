@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #define RED "\033[0;31m"
 #define BLACK "\033[0;30m"
