@@ -1,4 +1,4 @@
-TESTS = sview arena da
+TESTS = sview arena da minheap
 TEST_FILES = $(addsuffix .test, $(TESTS))
 
 all: $(TEST_FILES)

@@ -6,6 +6,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#define da_reserve(pda, cap) \
+    do { \
+        if(cap > (pda)->capacity) { \
+            (pda)->capacity = cap; \
+            (pda)->items = realloc((pda)->items, (pda)->capacity * sizeof(*(pda)->items)); \
+            if((pda)->items == NULL) { \
+                perror("da_reserve"); \
+                exit(1); \
+            } \
+        }\
+    }while(0)
+
 #define da_append(pda, value) \
     do { \
         if((pda)->size + 1 > (pda)->capacity) { \
