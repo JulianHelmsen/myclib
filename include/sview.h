@@ -35,4 +35,6 @@ long long sview_to_ll(sview a);
 unsigned int sview_to_u(sview a);
 long long sview_to_i(sview a);
 
+size_t sview_hash(sview a);
+
 #endif 

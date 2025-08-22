@@ -180,3 +180,13 @@ long long sview_to_i(sview a) {
 
     return neg ? -(long long) val : (long long) val;
 }
+
+size_t sview_hash(sview a) {
+    // from: https://docs.oracle.com/javase/8/docs/api/java/lang/String.html#hashCode--
+    size_t hash = 0;
+    for(size_t i = 0; i < a.len; ++i) {
+        char c = a.data[a.len - 1 - i];
+        hash = hash * 31 + c;
+    }
+    return hash;
+}
