@@ -15,6 +15,9 @@ static int fail_count = 0;
 static int succ_count = 0;
 static const char* s_prog = NULL;
 
+#define STRINGIZE(x) STRINGIZE2(x)
+#define STRINGIZE2(x) #x
+#define INFO(...) printf(BLACK"[INFO ("  __FILE__":"STRINGIZE(__LINE__)")]:"__VA_ARGS__)
 
 static void print_test_status(void) {
     const char* prefix = fail_count > 0 ? RED : GREEN;
