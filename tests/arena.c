@@ -54,6 +54,7 @@ void test_alloc_count(void) {
 
     for(size_t j = 0; j < sizeof(sizes) / sizeof(sizes[0]); ++j) {
         ptrs[j] = arena_alloc(&a, sizes[j]);
+        memset(ptrs[j], 0xFF, sizes[j]);
     }
 
     arena_reset_to(&a, marker);
@@ -65,6 +66,7 @@ void test_alloc_count(void) {
 
         for(size_t j = 0; j < sizeof(sizes) / sizeof(sizes[0]); ++j) {
             void* p = arena_alloc(&a, sizes[j]);
+            memset(ptrs[j], j & 0xFF, sizes[j]);
             test(p == ptrs[j]);
         }
 
