@@ -121,11 +121,14 @@ void test_arena_shrink_to_fit(void) {
 
     arena_marker marker = arena_mark(&a);
 
-    arena_alloc(&a, 4096);
-    test(a.area_count == 3);
+    const size_t N = 10;
+    for(size_t i = 0; i < N; ++i) {
+        arena_alloc(&a, 4096);
+        test(a.area_count == 3 + i);
+    }
 
     arena_reset_to(&a, marker);
-    test(a.area_count == 3);
+    test(a.area_count == 2 + N);
     arena_shrink_to_fit(&a);
     test(a.area_count == 2);
     test(a.head->next->next == NULL);
