@@ -13,7 +13,7 @@ static inline void* arena_area_data(arena_area* area) {
     return (void*) (area + 1);
 }
 
-arena_area* arena_area_create(size_t area_size) {
+static inline arena_area* arena_area_create(size_t area_size) {
     arena_area* area = malloc(sizeof(arena_area) + area_size);
     if(area == NULL) return NULL;
     area->size = area_size;
