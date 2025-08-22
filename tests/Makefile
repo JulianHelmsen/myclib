@@ -1,4 +1,4 @@
-TESTS = sview arena
+TESTS = sview arena da
 TEST_FILES = $(addsuffix .test, $(TESTS))
 
 all: $(TEST_FILES)
