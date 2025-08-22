@@ -83,11 +83,39 @@ void test_alloc_count(void) {
 }
 
 
+void test_huge_alloc_after_reset(void) {
+    arena a = { 0 };
+
+    arena_alloc(&a, 4080);
+    arena_marker marker1 = arena_mark(&a);
+    arena_alloc(&a, 4080);
+    arena_marker marker2 = arena_mark(&a);
+    test(marker1.curr != marker2.curr);
+    test(a.area_count == 2);
+
+    void* first_a = a.head;
+    void* second_a = a.head->next;
+
+    arena_reset_to(&a, marker1);
+    arena_alloc(&a, 10000);
+    test(a.area_count == 3);
+    void* third_a = a.head->next;
+
+
+    test(first_a == a.head);
+    test(third_a == a.head->next);
+    test(second_a == a.head->next->next);
+
+
+    arena_destroy(&a);
+}
+
 int main(const int argc, const char** argv) {
     prepare_test(argc, argv);
 
     test_reset();
     test_alloc_count();
+    test_huge_alloc_after_reset();
 
 
     return 0;
