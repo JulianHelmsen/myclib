@@ -102,6 +102,21 @@ void arena_reset_to(arena* a, arena_marker marker) {
     a->curr->offset = marker.offset;
 }
 
+void arena_shrink_to_fit(arena* a) {
+    arena_area* area = a->curr;
+    if(area == NULL) return;
+    arena_area* to_free = area->next;
+    area->next = NULL;
+
+    while(to_free != NULL) {
+        arena_area* next = to_free->next;
+        free(to_free);
+        to_free = next;
+        a->area_count -= 1;
+    }
+
+}
+
 void arena_destroy(arena* a) {
     arena_area* area = a->head;
     a->head = NULL;

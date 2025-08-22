@@ -26,6 +26,7 @@ void* arena_alloc(arena* a, size_t nbytes);
 arena_marker arena_mark(arena* a);
 void arena_reset_to(arena* a, arena_marker marker);
 void arena_reset(arena* a);
+void arena_shrink_to_fit(arena* a);
 void arena_destroy(arena* a);
 
 #endif 
