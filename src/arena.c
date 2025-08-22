@@ -4,12 +4,12 @@
 #include <stdbool.h>
 #include <assert.h>
 
-inline size_t align_up(size_t nbytes) {
+static inline size_t align_up(size_t nbytes) {
     size_t div_up = (nbytes+7) / 8;
     return div_up * 8;
 }
 
-inline void* arena_area_data(arena_area* area) {
+static inline void* arena_area_data(arena_area* area) {
     return (void*) (area + 1);
 }
 
