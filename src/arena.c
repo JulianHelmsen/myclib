@@ -35,38 +35,51 @@ void* arena_alloc(arena* a, size_t nbytes) {
 
     if(a->default_area_size == 0) arena_init(a);
 
-    arena_area* current = a->curr;
-    if(current == NULL || current->offset + nbytes > current->size) {
+    if(a->curr == NULL) {
+        size_t area_size = nbytes < a->default_area_size ? a->default_area_size : nbytes;
+        arena_area* area = arena_area_create(area_size);
+        if(area == NULL) return NULL;
+
+        assert(a->head == NULL);
+        a->head = area;
+        a->curr = area;
+        a->area_count += 1;
+    }else if(a->curr->offset + nbytes > a->curr->size) {
         // does not fit in current area
-        if(current == NULL || current->next == NULL) {
+        if(a->curr->next == NULL) {
             // allocate new area
             size_t area_size = nbytes < a->default_area_size ? a->default_area_size : nbytes;
             arena_area* area = arena_area_create(area_size);
             if(area == NULL) return NULL;
 
-            if(a->curr == NULL) {
-                assert(a->head == NULL);
-                a->head = area;
-                a->curr = area;
-            }else{
-                a->curr->next = area;
-                a->curr = area;
-            }
+            a->curr->next = area;
+            a->curr = area;
             a->area_count += 1;
         }else{
-            // select next area
-            a->curr = current->next;
-            a->curr->offset = 0;
+            arena_area* next = a->curr->next;
+            next->offset = 0;
+            assert(next != NULL);
+            if(next->offset + nbytes > next->size) {
+                size_t area_size = nbytes < a->default_area_size ? a->default_area_size : nbytes;
+                arena_area* area = arena_area_create(area_size);
+                if(area == NULL) return NULL;
+
+                area->next = next;
+                a->curr->next = area;
+                a->area_count += 1;
+            }else{
+                // select next area
+                a->curr = next;
+            }
         }
-        current = a->curr;
     }
 
-    if(current->offset + nbytes > current->size) {
+    if(a->curr->offset + nbytes > a->curr->size) {
         return NULL;
     }
 
-    void* p = (char*) arena_area_data(current) + current->offset;
-    current->offset += nbytes;
+    void* p = (char*) arena_area_data(a->curr) + a->curr->offset;
+    a->curr->offset += nbytes;
     return p;
 }
 
