@@ -1,7 +1,7 @@
 
 .PHONY all: libmylibc.a
 
-OBJECTS = build/sview.o build/arena.o build/minheap.o build/hashmap.o
+OBJECTS = build/sview.o build/arena.o build/minheap.o build/mview.o build/hashmap.o
 
 libmylibc.a: $(OBJECTS)
 	ar rc $@ $(OBJECTS)
