@@ -132,8 +132,28 @@ int main(const int argc, const char** argv) {
     test(sview_to_i(lit("-2147483648")) == INT_MAX);
     test(errno == ERANGE); errno = 0;
 
+    sview trim_test_left_empty = sview_create_lit("");
+    test(sview_trim_left(trim_test_left_empty).len == 0);
+    sview trim_test_right_empty = sview_create_lit("");
+    test(sview_trim_right(trim_test_right_empty).len == 0);
 
 
+    sview trim_test_left = sview_create_lit("asd");
+    test(sview_eq(sview_trim_left(trim_test_left), trim_test_left));
+
+    trim_test_left = sview_create_lit(" \r\n\t asd");
+    test(sview_eq(sview_trim_left(trim_test_left), sview_create_lit("asd")));
+
+    trim_test_left = sview_create_lit(" \r\n\t asd      \r\n\t");
+    test(sview_eq(sview_trim_left(trim_test_left), sview_create_lit("asd      \r\n\t")));
+
+    sview trim_test_right = sview_create_lit(" \r\n\t asd      \r\n\t");
+    test(sview_eq(sview_trim_right(trim_test_right), sview_create_lit(" \r\n\t asd")));
+    trim_test_right = sview_create_lit("asd      \r\n\t");
+    test(sview_eq(sview_trim_right(trim_test_right), sview_create_lit("asd")));
+
+    sview trim_test = sview_create_lit(" \r\n\t asd      \r\n\t");
+    test(sview_eq(sview_trim(trim_test), sview_create_lit("asd")));
 
     return 0;
 }

@@ -190,3 +190,25 @@ size_t sview_hash(sview a) {
     }
     return hash;
 }
+
+sview sview_trim(sview src) {
+    return sview_trim_left(sview_trim_right(src));
+}
+
+static bool is_trimmable(char c) {
+    return c == ' ' || c == '\r' || c == '\0' || c == '\n' || c == '\t';
+}
+
+sview sview_trim_left(sview src) {
+    while(src.len > 0 && is_trimmable(src.data[0])) {
+        src.data = src.data + 1;
+        src.len -= 1;
+    }
+    return src;
+}
+
+sview sview_trim_right(sview src) {
+    while(src.len > 0 && is_trimmable(src.data[src.len - 1]))
+        src.len -= 1;
+    return src;
+}

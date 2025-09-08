@@ -20,6 +20,10 @@ sview sview_subview(sview src, size_t begin, size_t len);
 sview sview_chop_left(sview src, size_t begin);
 sview sview_chop_right(sview src, size_t count);
 
+sview sview_trim(sview src);
+sview sview_trim_left(sview src);
+sview sview_trim_right(sview src);
+
 int sview_cmp(sview a, sview b);
 bool sview_eq(sview a, sview b);
 
