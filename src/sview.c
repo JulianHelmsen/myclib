@@ -212,3 +212,12 @@ sview sview_trim_right(sview src) {
         src.len -= 1;
     return src;
 }
+
+bool sview_strip_prefix(sview a, sview prefix, sview* dst) {
+    assert(dst != NULL);
+    if(!sview_starts_with(a, prefix))
+        return false;
+
+    *dst = sview_create(a.data + prefix.len, a.len - prefix.len);
+    return true;
+}

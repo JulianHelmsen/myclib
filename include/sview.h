@@ -41,4 +41,6 @@ long long sview_to_i(sview a);
 
 size_t sview_hash(sview a);
 
+bool sview_strip_prefix(sview a, sview prefix, sview* dst);
+
 #endif 

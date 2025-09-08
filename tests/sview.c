@@ -154,6 +154,17 @@ int main(const int argc, const char** argv) {
 
     sview trim_test = sview_create_lit(" \r\n\t asd      \r\n\t");
     test(sview_eq(sview_trim(trim_test), sview_create_lit("asd")));
+ 
 
+    sview a = lit("vn 1 2 3");
+    sview b;
+    test(!sview_strip_prefix(a, lit("asd"), &b));
+    test(sview_strip_prefix(a, lit("v"), &b));
+    test(sview_eq(b, lit("n 1 2 3")));
+    test(sview_strip_prefix(a, lit("vn"), &b));
+    test(sview_eq(b, lit(" 1 2 3")));
+    test(!sview_strip_prefix(a, lit("vna"), &b));
+    test(sview_strip_prefix(a, lit(""), &b));
+    test(sview_eq(b, a));
     return 0;
 }
