@@ -1,4 +1,4 @@
-TESTS = sview arena da minheap mview hashmap
+TESTS = sview arena da minheap mview hashmap file
 TEST_FILES = $(addsuffix .test, $(TESTS))
 
 all: $(TEST_FILES)

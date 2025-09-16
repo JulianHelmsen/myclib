@@ -22,7 +22,6 @@ sview sview_subview(sview src, size_t begin, size_t len) {
     assert(begin + len <= src.len);
 
     return sview_create(src.data + begin, len);
-
 }
 
 sview sview_chop_left(sview src, size_t begin) {
