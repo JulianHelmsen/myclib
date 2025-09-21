@@ -166,5 +166,14 @@ int main(const int argc, const char** argv) {
     test(!sview_strip_prefix(a, lit("vna"), &b));
     test(sview_strip_prefix(a, lit(""), &b));
     test(sview_eq(b, a));
+
+
+    test(sview_hash(lit("")) == 0);
+    test(sview_hash(lit("a")) == 97);
+    test(sview_hash(lit("ab")) == 'b' * 31 + 'a');
+    test(sview_hash(lit("ba")) == 'a' * 31 + 'b');
+    test(sview_hash(lit("b\0")) == 'b');
+    test(sview_hash(lit("\0b")) == 'b' * 31);
+
     return 0;
 }
