@@ -43,6 +43,6 @@ size_t sview_hash(sview a);
 
 bool sview_strip_prefix(sview a, sview prefix, sview* dst);
 
-#define SVIEW_FMT_ARGS(sview) ((int) (sview).len), sview.data
+#define SVIEW_FMT_ARGS(sview) ((int) (sview).len), ((sview).data)
 
 #endif 
