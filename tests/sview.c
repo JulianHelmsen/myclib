@@ -27,6 +27,14 @@ int main(const int argc, const char** argv) {
     test(sview_cmp(lit("b"), lit("a")) == 1);
     test(sview_cmp(lit("xyz"), lit("xyz")) == 0);
     test(sview_cmp(lit("xyzaaa"), lit("xyzaba")) == -1);
+    test(sview_cmp(lit("A"), lit("B")) == -1);
+    test(sview_cmp(lit("A"), lit("b")) == -33);
+    test(sview_cmp(lit("B"), lit("A")) == 1);
+    test(sview_cmp(lit("B"), lit("a")) == -31);
+    test(sview_cmp(lit("XYZ"), lit("XYZ")) == 0);
+    test(sview_cmp(lit("XYZAAA"), lit("XYZABA")) == -1);
+
+
 
     test(!sview_eq(lit("a"), lit("b")));
     test(!sview_eq(lit("b"), lit("a")));
@@ -174,6 +182,38 @@ int main(const int argc, const char** argv) {
     test(sview_hash(lit("ba")) == 'a' * 31 + 'b');
     test(sview_hash(lit("b\0")) == 'b');
     test(sview_hash(lit("\0b")) == 'b' * 31);
+
+    test(sview_cmp_ign_case(lit("A"), lit("B")) == -1);
+    test(sview_cmp_ign_case(lit("A"), lit("b")) == -1);
+    test(sview_cmp_ign_case(lit("B"), lit("A")) == 1);
+    test(sview_cmp_ign_case(lit("B"), lit("a")) == 1);
+    test(sview_cmp_ign_case(lit("XYZ"), lit("XYZ")) == 0);
+    test(sview_cmp_ign_case(lit("uYZ"), lit("uYZ")) == 0);
+    test(sview_cmp_ign_case(lit("uyz"), lit("uyz")) == 0);
+    test(sview_cmp_ign_case(lit("XYZAAA"), lit("XYZABA")) == -1);
+    test(sview_cmp_ign_case(lit(""), lit("")) == 0);
+
+    
+    test(!sview_eq_ign_case(lit("a"), lit("b")));
+    test(!sview_eq_ign_case(lit("b"), lit("a")));
+    test(sview_eq_ign_case(lit("xyz"), lit("xyz")));
+
+    test(sview_eq_ign_case(sview_subview(lit("xyzabc"), 1, SVIEW_NPOS), lit("yzabc")));
+    test(sview_eq_ign_case(sview_subview(lit("xyzabc"), 1, 2), lit("yz")));
+
+    test(sview_eq_ign_case(sview_chop_left(lit("xyzabc"), 1), lit("yzabc")));
+    test(sview_eq_ign_case(sview_chop_right(lit("xyzabc"), 1), lit("xyzab")));
+
+    test(!sview_eq_ign_case(lit("a"), lit("B")));
+    test(!sview_eq_ign_case(lit("b"), lit("A")));
+    test(sview_eq_ign_case(lit("xyz"), lit("Xyz")));
+
+    test(sview_eq_ign_case(sview_subview(lit("xyzabc"), 1, SVIEW_NPOS), lit("yzabc")));
+    test(sview_eq_ign_case(sview_subview(lit("xYZABC"), 1, 2), lit("yz")));
+
+    test(sview_eq_ign_case(sview_chop_left(lit("xyzabc"), 1), lit("yzabc")));
+    test(sview_eq_ign_case(sview_chop_right(lit("xyzabc"), 1), lit("xyzab")));
+
 
     return 0;
 }

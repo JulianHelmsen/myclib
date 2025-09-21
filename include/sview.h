@@ -26,6 +26,8 @@ sview sview_trim_right(sview src);
 
 int sview_cmp(sview a, sview b);
 bool sview_eq(sview a, sview b);
+bool sview_eq_ign_case(sview a, sview b);
+int sview_cmp_ign_case(sview a, sview b);
 
 size_t sview_index_of(sview haystack, sview needle);
 

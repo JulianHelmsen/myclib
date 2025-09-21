@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <errno.h>
 #include <limits.h>
+#include <ctype.h>
 
 sview sview_create(const char* str, size_t len) {
     return (sview) {
@@ -219,4 +220,19 @@ bool sview_strip_prefix(sview a, sview prefix, sview* dst) {
 
     *dst = sview_create(a.data + prefix.len, a.len - prefix.len);
     return true;
+}
+
+int sview_cmp_ign_case(sview a, sview b) {
+    for(size_t i = 0; i < a.len; ++i) {
+        char ac = a.data[i];
+        char bc = i < b.len ? b.data[i] : '\0';
+        int diff = tolower(ac) - tolower(bc);
+        if(diff != 0)
+            return diff;
+    }
+    return 0;
+}
+
+bool sview_eq_ign_case(sview a, sview b) {
+    return sview_cmp_ign_case(a, b) == 0;
 }
