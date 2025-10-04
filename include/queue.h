@@ -32,7 +32,7 @@
         const size_t new_cap = (pq)->capacity == 0 ? MIN_QUEUE_CAPACITY : (pq)->capacity * QUEUE_SCALING;\
         char* new_mem = malloc(new_cap * sizeof(*(pq)->items));\
         if(new_mem == NULL) {\
-            perror("new_mem");\
+            perror("malloc");\
             exit(1);\
         }\
         if((pq)->back < (pq)->front) {\
