@@ -18,9 +18,3 @@ void queue_tmemcpy(void* restrict  dst, size_t d_off, const void* restrict src, 
     memcpy(cdst, src, ncount * elem_size);
 }
 
-
-
-
-
-
-
