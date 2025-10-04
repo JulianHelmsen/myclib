@@ -1,7 +1,10 @@
 #include "test.h"
 #include <queue.h>
 
-bool queue_full(int_queue q);
+typedef struct {
+    QUEUE_MEMBERS(int);
+} int_queue;
+
 
 
 static void queue_push_back_test(void) {
