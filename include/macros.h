@@ -40,5 +40,6 @@
     } while(0)
 #endif //UNREACHABLE
 
+#define ARRAY_LEN(arr) (sizeof(arr) / sizeof((arr)[0]))
 
 #endif
