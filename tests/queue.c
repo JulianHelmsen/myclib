@@ -131,12 +131,15 @@ void queue_push_front_overflow_test(void) {
     test(queue_pop_front(&q) == 34);
     test(q.front == 1);
     test(queue_size(&q) == 0);
+    test(queue_empty(&q));
 
     queue_free(&q);
 }
 
 void queue_push_back_overflow_test(void) {
     int_queue q = { 0 };
+
+    test(queue_empty(&q));
 
     // _ _ _ _ _ _ _ _ _ _
     // a (all)
@@ -178,6 +181,7 @@ void queue_push_back_overflow_test(void) {
     test(queue_pop_back(&q) == 9);
     test(queue_pop_back(&q) == 6);
 
+    test(queue_empty(&q));
     queue_free(&q);
 }
 

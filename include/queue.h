@@ -85,6 +85,8 @@
 #define queue_front(pq) (pq)->items[(pq)->front]
 
 #define queue_back(pq) ((pq)->back == 0 ? (pq)->items[(pq)->capacity - 1] : (pq)->items[(pq)->back - 1])
+
+#define queue_empty(pq) ((pq)->front == (pq)->back)
 // internal
 void queue_tmemcpy(void* restrict  dst, size_t d_off, const void* restrict src, size_t ncount, size_t elem_size);
 #endif // MYLIBC_QUEUE_H
