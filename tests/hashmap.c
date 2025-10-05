@@ -69,7 +69,7 @@ void test_put_get(void) {
     hashmap_destroy(&map);
 }
 
-static int rand_int() {
+static int rand_int(void) {
     int val = (int) rand() << 16 | rand();
     return val & 0x7FFFFFFF;
 }

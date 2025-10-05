@@ -160,7 +160,7 @@ static bool set_opt_value(struct option* option, sview val) {
     return true;
 }
 
-size_t flag_argument_count() {
+size_t flag_argument_count(void) {
     return arg_count;
 }
 

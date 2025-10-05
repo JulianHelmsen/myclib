@@ -16,7 +16,7 @@ bool* flag_exists(char name, const char* description);
 bool flag_parse(int argc, const char** argv);
 void flag_reset(void);
 void flag_help(FILE* out);
-size_t flag_argument_count();
+size_t flag_argument_count(void);
 sview flag_argument_at(size_t idx);
 
 
