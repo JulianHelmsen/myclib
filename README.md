@@ -4,6 +4,7 @@ It is not meant to replace libc (in fact it uses libc). Instead, the purpose is 
 
 ### Features
 1. String views
+1. string builder
 1. Command line parser
 1. dynamic arrays
 1. memory view
