@@ -18,7 +18,7 @@ int main(const int argc, const char** argv) {
     test(sview_eq(sb_to_sview(&sb), sview_create_lit("hello , World")));
     sb_append_cstr(&sb, "!\n");
     test(sview_eq(sb_to_sview(&sb), sview_create_lit("hello , World!\n")));
-    sb_append_f(&sb, "Some crazy format: %llu, %s\n", 123, "string-format");
+    sb_append_f(&sb, "Some crazy format: %llu, %s\n", 123llu, "string-format");
     test(sview_eq(sb_to_sview(&sb), sview_create_lit("hello , World!\nSome crazy format: 123, string-format\n")));
 
     const size_t len = sb.size;
