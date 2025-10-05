@@ -9,7 +9,7 @@ libmylibc.a: $(OBJECTS)
 build/%.o: src/%.c include/%.h
 	$(CC) -g -c -o $@ $< -Wall -Werror -Wextra -pedantic -std=c99 -Iinclude
 
-install:
+install: libmylibc.a
 	cp -r ./include /usr/include/mylibc
 	cp -r ./libmylibc.a /usr/lib/
 
