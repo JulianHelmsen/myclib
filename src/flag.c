@@ -13,7 +13,7 @@ enum opt_kind {
 
 union option_value {
     int ival;
-    const char* sval;
+    sview sval;
     bool bval;
 };
 
@@ -39,7 +39,7 @@ struct flag {
 static const char* prog_name = NULL;
 static struct option opts[100];
 static size_t opt_count = 0;
-static const char* arguments[100];
+static sview arguments[100];
 static size_t arg_count = 0;
 static struct flag flags[100];
 static size_t flag_count = 0;
@@ -70,7 +70,7 @@ bool* flag_opt_bool(const char* name, bool def_value, const char* descr) {
     return &opt->val.bval;
 
 }
-const char** flag_opt_string(const char* name, const char* def_value, const char* descr) {
+sview* flag_opt_string(const char* name, const char* def_value, const char* descr) {
     if(opt_count >= ARRAY_LEN(opts)) {
         ERR("Too many options defined. Max = %zu\n", ARRAY_LEN(opts));
         abort();
@@ -80,7 +80,7 @@ const char** flag_opt_string(const char* name, const char* def_value, const char
     opt->name = name;
     opt->kind = STRING;
     opt->description = descr;
-    opt->val.sval = def_value;
+    opt->val.sval = sview_create_null_terminated(def_value);
 
     return &opt->val.sval;
 }
@@ -111,7 +111,7 @@ void flag_help(FILE* out) {
         switch(opt->kind) {
             case INT: fprintf(out, "<int>    %d", opt->val.ival); break;
             case BOOL: fprintf(out, "<bool>    %s", opt->val.bval ? "true" : "false"); break;
-            case STRING: fprintf(out, "<string>    %s", opt->val.sval); break;
+            case STRING: fprintf(out, "<string>    %.*s", SVIEW_FMT_ARGS(opt->val.sval)); break;
             default: UNREACHABLE();
         }
         fprintf(out, "     %s\n", opt->description);
@@ -154,7 +154,7 @@ static bool set_opt_value(struct option* option, sview val) {
         break;
     }
     case STRING: {
-        option->val.sval = val.data;
+        option->val.sval = val;
     }
     }
     return true;
@@ -164,7 +164,7 @@ size_t flag_argument_count() {
     return arg_count;
 }
 
-const char* flag_argument_at(size_t idx) {
+sview flag_argument_at(size_t idx) {
     return arguments[idx];
 }
 
@@ -213,7 +213,7 @@ bool flag_parse(int argc, const char** argv) {
             }
         }else {
             // normal argument
-            arguments[arg_count++] = argv[i];
+            arguments[arg_count++] = sview_create_null_terminated(argv[i]);
         }
     }
     return true;

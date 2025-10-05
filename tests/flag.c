@@ -8,7 +8,7 @@ static void test_empty(void) {
     flag_reset();
     int* n = flag_opt_int("n", 32, "an integer");
     bool* b = flag_opt_bool("b", false, "a bool");
-    const char** s = flag_opt_string("s", "a string", "a string description");
+    sview* s = flag_opt_string("s", "a string", "a string description");
 
 
     const char* argv[] = {
@@ -18,14 +18,14 @@ static void test_empty(void) {
     test(succ);
     test(*n == 32);
     test(*b == false);
-    test(strcmp(*s, "a string") == 0);
+    test(sview_eq(*s, sview_create_lit("a string")));
 }
 
 static void test_options(void) {
     flag_reset();
     int* n = flag_opt_int("n", 32, "an integer");
     bool* b = flag_opt_bool("b", false, "a bool");
-    const char** s = flag_opt_string("s", "a string", "a string description");
+    sview* s = flag_opt_string("s", "a string", "a string description");
 
 
     const char* argv[] = {
@@ -36,7 +36,7 @@ static void test_options(void) {
     bool succ = flag_parse(ARRAY_LEN(argv), argv);
     test(*n == 55);
     test(*b == true);
-    test(strcmp(*s, "a string") == 0);
+    test(sview_eq(*s, sview_create_lit("a string")));
     test(succ);
 }
 
@@ -44,7 +44,7 @@ static void test_unknown_option(void) {
     flag_reset();
     int* n = flag_opt_int("n", 32, "an integer");
     bool* b = flag_opt_bool("b", false, "a bool");
-    const char** s = flag_opt_string("s", "a string", "a string description");
+    sview* s = flag_opt_string("s", "a string", "a string description");
 
 
     const char* argv[] = {
@@ -57,14 +57,14 @@ static void test_unknown_option(void) {
     test(!succ);
     test(*n == 55);
     test(*b == true);
-    test(strcmp(*s, "a string") == 0);
+    test(sview_eq(*s, sview_create_lit("a string")));
 }
 
 static void test_unknown_flag(void) {
     flag_reset();
     int* n = flag_opt_int("n", 32, "an integer");
     bool* b = flag_opt_bool("b", false, "a bool");
-    const char** s = flag_opt_string("s", "a string", "a string description");
+    sview* s = flag_opt_string("s", "a string", "a string description");
 
 
     const char* argv[] = {
@@ -77,7 +77,7 @@ static void test_unknown_flag(void) {
     test(!succ);
     test(*n == 55);
     test(*b == true);
-    test(strcmp(*s, "a string") == 0);
+    test(sview_eq(*s, sview_create_lit("a string")));
 }
 
 static void test_flags(void) {
@@ -107,7 +107,7 @@ static void test_args(void) {
     printf("----- TEST_ARGS ---- \n");
     bool* recursive = flag_exists('r', "recursive");
     bool* print_line_numbers = flag_exists('n', "print_line_numbers");
-    const char** regex = flag_opt_string("include", "*", "pattern to for files to match");
+    sview* regex = flag_opt_string("include", "*", "pattern to for files to match");
 
 
     const char* argv[] = {
@@ -122,12 +122,12 @@ static void test_args(void) {
     test(succ);
     test(*recursive);
     test(*print_line_numbers);
-    test(strcmp(*regex, "*.h") == 0);
+    test(sview_eq(*regex, sview_create_lit("*.h")));
     test(flag_argument_count() == 3);
 
-    test(strcmp(flag_argument_at(0), "./src/") == 0);
-    test(strcmp(flag_argument_at(1), "./test/") == 0);
-    test(strcmp(flag_argument_at(2), "./examples/") == 0);
+    test(sview_eq(flag_argument_at(0), sview_create_lit("./src/")));
+    test(sview_eq(flag_argument_at(1), sview_create_lit("./test/")));
+    test(sview_eq(flag_argument_at(2), sview_create_lit("./examples/")));
 }
 
 int main(const int argc, const char** argv) {
