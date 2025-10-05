@@ -9,6 +9,10 @@ libmylibc.a: $(OBJECTS)
 build/%.o: src/%.c include/%.h
 	$(CC) -g -c -o $@ $< -Wall -Werror -Wextra -pedantic -std=c99 -Iinclude
 
+install:
+	cp -r ./include /usr/include/mylibc
+	cp -r ./libmylibc.a /usr/lib/
+
 
 .PHONY test: libmylibc.a
 	$(MAKE) -C tests all
