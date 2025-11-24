@@ -40,6 +40,8 @@ unsigned long long sview_to_ull(sview a);
 long long sview_to_ll(sview a);
 unsigned int sview_to_u(sview a);
 long long sview_to_i(sview a);
+double sview_to_d(sview a);
+float sview_to_f(sview a);
 
 size_t sview_hash(sview a);
 

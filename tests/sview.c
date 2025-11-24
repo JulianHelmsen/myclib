@@ -3,9 +3,11 @@
 #include <errno.h>
 #include <limits.h>
 #include "test.h"
+#include <math.h>
 
 #define lit(s) sview_create_lit(s)
 
+#define eq_f(a, b, EPS) (((a) < (b) ? (b) - (a) : (a) - (b)) <= (EPS))
 
 int main(const int argc, const char** argv) {
     prepare_test(argc, argv);
@@ -222,6 +224,36 @@ int main(const int argc, const char** argv) {
     test(sview_eq_ign_case(sview_chop_left(lit("xyzabc"), 1), lit("yzabc")));
     test(sview_eq_ign_case(sview_chop_right(lit("xyzabc"), 1), lit("xyzab")));
 
+
+    test(eq_f(sview_to_f(lit("0")), 0.0f, 1e-5f));
+    test(eq_f(sview_to_f(lit("0.1234")), 0.1234f, 1e-5f));
+    test(eq_f(sview_to_f(lit("100.1234")), 100.1234f, 1e-5f));
+    test(eq_f(sview_to_f(lit("-0")), 0.0f, 1e-5f));
+    test(eq_f(sview_to_f(lit("-0.1234")), -0.1234f, 1e-5f));
+    test(eq_f(sview_to_f(lit("-100.1234")), -100.1234f, 1e-5f));
+
+    test(isnan(sview_to_f(lit("0.1234.123"))));
+    test(isnan(sview_to_f(lit("--0.1234"))));
+    test(isnan(sview_to_f(lit("--1000.1234"))));
+    test(isnan(sview_to_f(lit("0.1234.0"))));
+    test(isnan(sview_to_f(lit("abc"))));
+    test(isnan(sview_to_f(lit(" "))));
+    test(isnan(sview_to_f(lit(""))));
+
+    test(eq_f(sview_to_d(lit("0")), 0.0, 1e-5));
+    test(eq_f(sview_to_d(lit("0.1234")), 0.1234, 1e-5));
+    test(eq_f(sview_to_d(lit("100.1234")), 100.1234, 1e-5));
+    test(eq_f(sview_to_d(lit("-0")), 0.0, 1e-5));
+    test(eq_f(sview_to_d(lit("-0.1234")), -0.1234, 1e-5));
+    test(eq_f(sview_to_d(lit("-100.1234")), -100.1234, 1e-5));
+
+    test(isnan(sview_to_d(lit("0.1234.123"))));
+    test(isnan(sview_to_d(lit("--0.1234"))));
+    test(isnan(sview_to_d(lit("--1000.1234"))));
+    test(isnan(sview_to_d(lit("0.1234.0"))));
+    test(isnan(sview_to_d(lit("abc"))));
+    test(isnan(sview_to_d(lit(" "))));
+    test(isnan(sview_to_d(lit(""))));
 
     return 0;
 }

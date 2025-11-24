@@ -4,6 +4,8 @@
 #include <errno.h>
 #include <limits.h>
 #include <ctype.h>
+#include <math.h>
+#include <stdlib.h>
 
 sview sview_create(const char* str, size_t len) {
     return (sview) {
@@ -245,3 +247,23 @@ bool sview_strip_suffix(sview a, sview suffix, sview* dst) {
     *dst = sview_create(a.data, a.len - suffix.len);
     return true;
 }
+
+double sview_to_d(sview a) {
+    char buf[32];
+    if(a.len == 0) return NAN;
+    size_t len = a.len < sizeof(buf) - 1 ? a.len : sizeof(buf) - 1;
+    buf[len] = '\0';
+    memcpy(buf, a.data, len);
+    char* endptr = NULL;
+    double ret = strtod(buf, &endptr);
+    if(endptr != buf + len)
+        return NAN;
+    return ret;
+}
+
+float sview_to_f(sview a) {
+    return (float) sview_to_d(a);
+}
+
+float sview_to_f(sview a);
+float sview_to_f(sview a);
