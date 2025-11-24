@@ -44,6 +44,7 @@ long long sview_to_i(sview a);
 size_t sview_hash(sview a);
 
 bool sview_strip_prefix(sview a, sview prefix, sview* dst);
+bool sview_strip_suffix(sview a, sview suffix, sview* dst);
 
 #define SVIEW_FMT_ARGS(sview) ((int) (sview).len), ((sview).data)
 

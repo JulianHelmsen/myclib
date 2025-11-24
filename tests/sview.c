@@ -175,6 +175,14 @@ int main(const int argc, const char** argv) {
     test(sview_strip_prefix(a, lit(""), &b));
     test(sview_eq(b, a));
 
+    a = lit("vn 1 2 3 #suffix");
+    test(!sview_strip_suffix(a, lit("asd"), &b));
+    test(!sview_strip_suffix(a, lit("abc#suffix"), &b));
+    test(sview_strip_suffix(a, lit(""), &b));
+    test(sview_eq(b, lit("vn 1 2 3 #suffix")));
+    test(sview_strip_suffix(a, lit("#suffix"), &b));
+    test(sview_eq(b, lit("vn 1 2 3 ")));
+
 
     test(sview_hash(lit("")) == 0);
     test(sview_hash(lit("a")) == 97);

@@ -196,7 +196,7 @@ sview sview_trim(sview src) {
 }
 
 static bool is_trimmable(char c) {
-    return c == ' ' || c == '\r' || c == '\0' || c == '\n' || c == '\t';
+    return c == ' ' || c == '\r' || c == '\0' || c == '\n' || c == '\t' || !isprint(c);
 }
 
 sview sview_trim_left(sview src) {
@@ -235,4 +235,13 @@ int sview_cmp_ign_case(sview a, sview b) {
 
 bool sview_eq_ign_case(sview a, sview b) {
     return sview_cmp_ign_case(a, b) == 0;
+}
+
+bool sview_strip_suffix(sview a, sview suffix, sview* dst) {
+    assert(dst != NULL);
+    if(!sview_ends_with(a, suffix))
+        return false;
+
+    *dst = sview_create(a.data, a.len - suffix.len);
+    return true;
 }
