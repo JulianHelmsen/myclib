@@ -265,5 +265,3 @@ float sview_to_f(sview a) {
     return (float) sview_to_d(a);
 }
 
-float sview_to_f(sview a);
-float sview_to_f(sview a);
