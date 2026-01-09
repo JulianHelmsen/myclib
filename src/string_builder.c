@@ -49,8 +49,8 @@ void sb_free(string_builder* sb) {
     da_free(sb);
 }
 
-bool sb_replace(string_builder* sb, sview occurr, sview replacement) {
-    const size_t idx = sview_index_of(sview_create(sb->items, sb->size), occurr);
+bool sb_replace_nth(string_builder* sb, sview occurr, sview replacement, size_t nth) {
+    const size_t idx = sview_index_of_nth(sview_create(sb->items, sb->size), occurr, nth);
     if(idx == SVIEW_NPOS) return false;
 
 
@@ -64,3 +64,8 @@ bool sb_replace(string_builder* sb, sview occurr, sview replacement) {
     sb->size = new_size;
     return true;
 }
+
+bool sb_replace(string_builder* sb, sview occurr, sview replacement) {
+    return sb_replace_nth(sb, occurr, replacement, 0);
+}
+

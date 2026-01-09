@@ -40,6 +40,18 @@ void replace_test(void) {
     test(sb_replace(&sb, sview_create_lit("beautiful "), sview_create_lit("")));
     test(sview_eq(sb_to_sview(&sb), sview_create_lit("Hello, World")));
 
+
+    test(!sb_replace_nth(&sb, sview_create_lit("X"), sview_create_lit("Y"), 0));
+    test(sview_eq(sb_to_sview(&sb), sview_create_lit("Hello, World")));
+    test(sb_replace_nth(&sb, sview_create_lit("l"), sview_create_lit("L"), 0));
+    test(sview_eq(sb_to_sview(&sb), sview_create_lit("HeLlo, World")));
+    test(sb_replace_nth(&sb, sview_create_lit("L"), sview_create_lit("l"), 0));
+    test(sview_eq(sb_to_sview(&sb), sview_create_lit("Hello, World")));
+    test(sb_replace_nth(&sb, sview_create_lit("l"), sview_create_lit("L"), 1));
+    test(sview_eq(sb_to_sview(&sb), sview_create_lit("HelLo, World")));
+    test(sb_replace_nth(&sb, sview_create_lit("L"), sview_create_lit("l"), 0));
+    test(sb_replace_nth(&sb, sview_create_lit("l"), sview_create_lit("L"), 2));
+    test(sview_eq(sb_to_sview(&sb), sview_create_lit("Hello, WorLd")));
     sb_free(&sb);
 }
 
