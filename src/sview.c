@@ -54,11 +54,18 @@ bool sview_eq(sview a, sview b) {
 }
 
 size_t sview_index_of(sview haystack, sview needle) {
+    return sview_index_of_nth(haystack, needle, 0);
+}
+
+size_t sview_index_of_nth(sview haystack, sview needle, size_t nth) {
     if(needle.len > haystack.len) return SVIEW_NPOS;
 
+    size_t match = -1;
     for(size_t i = 0; i < 1 + haystack.len - needle.len; ++i) {
         if(memcmp(haystack.data + i, needle.data, needle.len) == 0) {
-            return (long long) i;
+            if(++match == nth) {
+                return (long long) i;
+            }
         }
     }
 

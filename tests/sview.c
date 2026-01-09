@@ -25,6 +25,13 @@ int main(const int argc, const char** argv) {
     test(sview_index_of(lit("a bc"), lit("abc")) == SVIEW_NPOS);
     test(sview_index_of(lit(""), lit("abc")) == SVIEW_NPOS);
 
+    test(sview_index_of_nth(lit("xyzabcde"), lit("abc"), 0) == 3);
+    test(sview_index_of_nth(lit("xyzabcde"), lit("abc"), 1) == SVIEW_NPOS);
+    test(sview_index_of_nth(lit("aaaa"), lit("aa"), 0) == 0);
+    test(sview_index_of_nth(lit("aaaa"), lit("aa"), 1) == 1);
+    test(sview_index_of_nth(lit("aaaa"), lit("aa"), 2) == 2);
+    test(sview_index_of_nth(lit("aaaa"), lit("aa"), 3) == SVIEW_NPOS);
+
     test(sview_cmp(lit("a"), lit("b")) == -1);
     test(sview_cmp(lit("b"), lit("a")) == 1);
     test(sview_cmp(lit("xyz"), lit("xyz")) == 0);

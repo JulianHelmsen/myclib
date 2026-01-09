@@ -30,6 +30,7 @@ bool sview_eq_ign_case(sview a, sview b);
 int sview_cmp_ign_case(sview a, sview b);
 
 size_t sview_index_of(sview haystack, sview needle);
+size_t sview_index_of_nth(sview haystack, sview needle, size_t nth);
 
 bool sview_starts_with(sview str, sview start);
 bool sview_ends_with(sview str, sview start);
