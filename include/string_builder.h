@@ -26,4 +26,6 @@ sview sb_append_null(string_builder* sb);
 
 void sb_free(string_builder* sb);
 
+bool sb_replace(string_builder* sb, sview occurr, sview replacement);
+
 #endif 

@@ -48,3 +48,19 @@ sview sb_append_null(string_builder* sb) {
 void sb_free(string_builder* sb) {
     da_free(sb);
 }
+
+bool sb_replace(string_builder* sb, sview occurr, sview replacement) {
+    const size_t idx = sview_index_of(sview_create(sb->items, sb->size), occurr);
+    if(idx == SVIEW_NPOS) return false;
+
+
+    const size_t new_size = sb->size - occurr.len + replacement.len;
+    da_reserve(sb, new_size);
+
+
+    memmove(sb->items + idx + replacement.len, sb->items + idx + occurr.len, (sb->size - (idx + occurr.len)) * sizeof(char));
+    memcpy(sb->items + idx, replacement.data, replacement.len * sizeof(char));
+
+    sb->size = new_size;
+    return true;
+}

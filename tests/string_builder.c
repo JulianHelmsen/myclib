@@ -1,9 +1,8 @@
 #include "test.h"
 #include <string_builder.h>
 
-int main(const int argc, const char** argv) {
-    prepare_test(argc, argv);
 
+void append_test(void) {
     string_builder sb = { 0 };
 
     sb_append_c(&sb, 'h');
@@ -25,5 +24,30 @@ int main(const int argc, const char** argv) {
     sview terminated = sb_append_null(&sb);
     test(len == terminated.len);
     sb_free(&sb);
+}
+
+void replace_test(void) {
+    string_builder sb = { 0 };
+    sb_append_cstr(&sb, "Hello. World");
+
+    test(!sb_replace(&sb, sview_create_lit(","), sview_create_lit(",")));
+    test(sview_eq(sb_to_sview(&sb), sview_create_lit("Hello. World")));
+    test(sb_replace(&sb, sview_create_lit("."), sview_create_lit(",")));
+    test(sview_eq(sb_to_sview(&sb), sview_create_lit("Hello, World")));
+
+    test(sb_replace(&sb, sview_create_lit("World"), sview_create_lit("beautiful World")));
+    test(sview_eq(sb_to_sview(&sb), sview_create_lit("Hello, beautiful World")));
+    test(sb_replace(&sb, sview_create_lit("beautiful "), sview_create_lit("")));
+    test(sview_eq(sb_to_sview(&sb), sview_create_lit("Hello, World")));
+
+    sb_free(&sb);
+}
+
+int main(const int argc, const char** argv) {
+    prepare_test(argc, argv);
+  
+    append_test();
+    replace_test();
+
     return 0;
 }
