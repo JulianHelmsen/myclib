@@ -45,6 +45,11 @@ int sview_cmp(sview a, sview b) {
         if(diff != 0)
             return diff;
     }
+    if(a.len < b.len)
+        return -b.data[a.len];
+    if(b.len < a.len)
+        return a.data[b.len];
+
     return 0;
 }
 

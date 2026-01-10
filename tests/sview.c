@@ -42,6 +42,8 @@ int main(const int argc, const char** argv) {
     test(sview_cmp(lit("B"), lit("a")) == -31);
     test(sview_cmp(lit("XYZ"), lit("XYZ")) == 0);
     test(sview_cmp(lit("XYZAAA"), lit("XYZABA")) == -1);
+    test(sview_cmp(lit("a"), lit("aa")) == -'a');
+    test(sview_cmp(lit("aa"), lit("a")) == 'a');
 
 
 
