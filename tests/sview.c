@@ -209,6 +209,9 @@ int main(const int argc, const char** argv) {
     test(sview_cmp_ign_case(lit("uyz"), lit("uyz")) == 0);
     test(sview_cmp_ign_case(lit("XYZAAA"), lit("XYZABA")) == -1);
     test(sview_cmp_ign_case(lit(""), lit("")) == 0);
+    test(sview_cmp_ign_case(lit("a"), lit("aa")) == -'a');
+    test(sview_cmp_ign_case(lit("aa"), lit("a")) == 'a');
+    test(sview_cmp_ign_case(lit("ab"), lit("aa")) == 1);
 
     
     test(!sview_eq_ign_case(lit("a"), lit("b")));
