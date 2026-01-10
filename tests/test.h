@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#define RESET_COLORS "\033[0m"
 #define RED "\033[0;31m"
 #define BLACK "\033[0;30m"
 #define GREEN "\033[0;32m"
@@ -17,17 +18,17 @@ static const char* s_prog = NULL;
 
 #define STRINGIZE(x) STRINGIZE2(x)
 #define STRINGIZE2(x) #x
-#define INFO(...) printf(BLACK"[INFO ("  __FILE__":"STRINGIZE(__LINE__)")]:"__VA_ARGS__)
+#define INFO(...) printf(RESET_COLORS"[INFO ("  __FILE__":"STRINGIZE(__LINE__)")]:"__VA_ARGS__)
 
 static void print_test_status(void) {
     const char* prefix = fail_count > 0 ? RED : GREEN;
-    printf("%sCompleted test %s. Status: %d/%d\n", prefix, s_prog, succ_count, succ_count + fail_count);
+    printf(RESET_COLORS"%sCompleted test %s. Status: %d/%d\n", prefix, s_prog, succ_count, succ_count + fail_count);
     printf(BLACK);
 }
 
 static void test_impl(bool cond, const char* cond_str, int line, const char* file) {
     if(!cond) {
-        printf(FAIL "%s:%d: %s\n", file, line, cond_str);
+        printf(FAIL "%s:%d: %s\n"RESET_COLORS, file, line, cond_str);
         fail_count += 1;
     }else{
         succ_count += 1;
@@ -39,7 +40,7 @@ static void test_impl(bool cond, const char* cond_str, int line, const char* fil
 static void prepare_test(const int argc, const char** argv) {
     (void) argc;
     s_prog = argv[0];
-    printf(BLACK"Running test: %s\n", s_prog);
+    printf(RESET_COLORS"Running test: %s\n", s_prog);
     atexit(print_test_status);
     (void) test_impl;
 }
