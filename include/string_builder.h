@@ -7,9 +7,9 @@
 
 
 typedef struct {
-    char* items;
     size_t size;
     size_t capacity;
+    char* items __counted_by(size);
 } string_builder;
 
 
