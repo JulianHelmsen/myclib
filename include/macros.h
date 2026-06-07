@@ -44,6 +44,12 @@
 #define ARRAY_LEN(arr) (sizeof(arr) / sizeof((arr)[0]))
 #endif // ARRAY_LEN
 
+#if defined(__GNUC__) || defined(__clang__)
+#define ATTR_PRINTF(fmt_idx, args_idx) __attribute__((__format__(__printf__, fmt_idx, args_idx)))
+#else
+#define ATTR_PRINTF(fmt_idx, args_idx) 
+#endif
+
 #if __has_attribute(__counted_by__)
 #define __counted_by(member)  __attribute__((__counted_by__(member)))
 #else

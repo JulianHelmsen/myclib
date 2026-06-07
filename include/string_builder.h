@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include "sview.h"
+#include "macros.h"
 
 
 typedef struct {
@@ -11,11 +12,6 @@ typedef struct {
     size_t capacity;
 } string_builder;
 
-#if defined(__GNUC__) || defined(__clang__)
-#define ATTR_PRINTF(fmt_idx, args_idx) __attribute__((__format__(__printf__, fmt_idx, args_idx)))
-#else
-#define ATTR_PRINTF(fmt_idx, args_idx) 
-#endif
 
 void sb_append_c(string_builder* sb, char c);
 void sb_append_sv(string_builder* sb, sview sv);
