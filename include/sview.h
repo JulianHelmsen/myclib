@@ -3,12 +3,13 @@
 
 #include <stddef.h>
 #include <stdbool.h>
+#include "macros.h"
 
 #define SVIEW_NPOS ((size_t) -1)
 
 typedef struct {
-    const char* data;
     size_t len;
+    const char* data __counted_by(len);
 } sview;
 
 
