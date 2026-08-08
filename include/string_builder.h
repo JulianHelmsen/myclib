@@ -5,11 +5,16 @@
 #include "sview.h"
 #include "macros.h"
 
+#ifdef STRING_BUILDER_IMPLEMENTATION
+#define SB_COUNTED_BY __counted_by(capacity)
+#else
+#define SB_COUNTED_BY __counted_by(size)
+#endif
 
 typedef struct {
     size_t size;
     size_t capacity;
-    char* items __counted_by(size);
+    char* items SB_COUNTED_BY;
 } string_builder;
 
 

@@ -28,7 +28,9 @@
                 exit(1); \
             } \
         } \
-        (pda)->items[(pda)->size++] = value; \
+        if((pda)->size + 1 < (pda)->capacity) { \
+            (pda)->items[(pda)->size++] = value; \
+        } \
     }while(0)
 
 #define da_free(pda) \

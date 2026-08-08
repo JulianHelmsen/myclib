@@ -1,3 +1,4 @@
+#define STRING_BUILDER_IMPLEMENTATION
 #include <string_builder.h>
 #include <da.h>
 #include <stdarg.h>
