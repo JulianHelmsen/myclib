@@ -28,7 +28,7 @@
                 exit(1); \
             } \
         } \
-        if((pda)->size + 1 < (pda)->capacity) { \
+        if((pda)->size + 1 <= (pda)->capacity) { \
             (pda)->items[(pda)->size++] = value; \
         } \
     }while(0)
