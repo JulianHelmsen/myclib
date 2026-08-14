@@ -19,7 +19,7 @@ void pipe_test(void) {
         NULL
     };
     
-    process p = process_create(child_argv);
+    process p = process_create(child_argv, 0);
     const int exit = process_wait(p);
     test(exit == 0);
 
